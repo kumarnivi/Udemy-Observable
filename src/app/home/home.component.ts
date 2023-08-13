@@ -19,19 +19,45 @@ export class HomeComponent implements OnInit, OnDestroy{
   //   }); //**this is auto obsovable */
 
   // ! custom Observable ! //
-  const customIntervalObservable = Observable.create((observer) => {
-    let count =0;
-    setInterval(handler: () => {
-      observer.next(count)
-       count++;
-    }, timeout: 1000);
+  // const customIntervalObservable = Observable.create((observer) => {
+  //   let count =0;
+  //   setInterval(handler: () => {
+  //     observer.next(count)
+  //      count++;
+  //   }, timeout: 1000);
 
-  });
+  // });
+  // ** this is new version angulaer code 
+  const customIntervalObservable = new Observable((observer) => {
+    let count = 0;
+    const intervalId = setInterval(() => {
+      observer.next(count);
+//  ** here when come the count no2 setInterval is completed but error message is not showing
+      if(count == 2 ){
+        observer.complete();
+      }
+
+      // ** for Show an error message **//
+      if(count > 3){
+        observer.error(new Error('count is greater 3!'))
+      }
+      count++;
+    }, 1000);
+  
+  })
+
 
 this.firstObsSubscription =  customIntervalObservable.subscribe(data => {
     console.log(data)
-  });
+  }, error => {
+    console.log(error);
+    alert(error.message);
+  }, () => {
+    console.log('Completed!');
+  })
+
    }
+
    ngOnDestroy(): void {
      this.firstObsSubscription.unsubscribe();
    }
