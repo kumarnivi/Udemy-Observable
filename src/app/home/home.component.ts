@@ -1,64 +1,59 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, interval, Observable} from 'rxjs'
+import { Subscription, interval, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy{
-  private firstObsSubscription!: Subscription
-  
+export class HomeComponent implements OnInit, OnDestroy {
+  private firstObsSubscription!: Subscription;
 
-   ngOnInit() {
-    //  interval(periond: 1000).subscribe(next :count => {
-    //   console.log(count);
-    //  }) //**this is not work in angular16 */
-    
-  // this.firstObsSubscription =  interval(1000).subscribe(count => {
-  //     console.log(count);
-  //   }); //**this is auto obsovable */
+  ngOnInit() {
+    const customIntervalObservable = new Observable<number>((observer) => {
+      let count = 0;
+      const intervalId = setInterval(() => {
+        observer.next(count);
 
-  // ! custom Observable ! //
-  // const customIntervalObservable = Observable.create((observer) => {
-  //   let count =0;
-  //   setInterval(handler: () => {
-  //     observer.next(count)
-  //      count++;
-  //   }, timeout: 1000);
+        if (count === 2) {
+          observer.complete();
+        }
 
-  // });
-  // ** this is new version angulaer code 
-  const customIntervalObservable = new Observable((observer) => {
-    let count = 0;
-    const intervalId = setInterval(() => {
-      observer.next(count);
-//  ** here when come the count no2 setInterval is completed but error message is not showing
-      if(count == 2 ){
-        observer.complete();
+        if (count > 3) {
+          observer.error(new Error('Count is greater than 3!'));
+        }
+        count++;
+      }, 1000);
+
+      // Cleanup logic when the subscription is unsubscribed
+      return () => {
+        clearInterval(intervalId);
+      };
+    });
+
+    this.firstObsSubscription = customIntervalObservable.pipe(
+      map((data: number) => {
+        // Your custom logic here if needed
+        return data; // No transformation applied in this example
+      })
+    ).subscribe(
+      data => {
+        console.log('Transformed Data:', data);
+        // Add your custom logic here to work with the transformed data
+        // For example: sendToServer(data), processData(data), etc.
+      },
+      error => {
+        console.log(error);
+        alert(error.message);
+      },
+      () => {
+        console.log('Completed!');
       }
+    );
+  }
 
-      // ** for Show an error message **//
-      if(count > 3){
-        observer.error(new Error('count is greater 3!'))
-      }
-      count++;
-    }, 1000);
-  
-  })
-
-
-this.firstObsSubscription =  customIntervalObservable.subscribe(data => {
-    console.log(data)
-  }, error => {
-    console.log(error);
-    alert(error.message);
-  }, () => {
-    console.log('Completed!');
-  })
-
-   }
-
-   ngOnDestroy(): void {
-     this.firstObsSubscription.unsubscribe();
-   }
+  ngOnDestroy(): void {
+    this.firstObsSubscription.unsubscribe();
+  }
 }
