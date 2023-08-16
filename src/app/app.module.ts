@@ -8,6 +8,7 @@ import { UserComponent } from './user/user.component';
 import { PipesComponent } from './pipes/pipes.component';
 import { FormsModule } from '@angular/forms';
 import { ShortentPipe } from './shorten.pipe';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ShortentPipe } from './shorten.pipe';
     HomeComponent,
     UserComponent,
     PipesComponent,
-    ShortentPipe
+    ShortentPipe,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
