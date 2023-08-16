@@ -9,6 +9,7 @@ import { PipesComponent } from './pipes/pipes.component';
 import { FormsModule } from '@angular/forms';
 import { ShortentPipe } from './shorten.pipe';
 import { FilterPipe } from './filter.pipe';
+import { HttpComponent } from './http/http.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FilterPipe } from './filter.pipe';
     UserComponent,
     PipesComponent,
     ShortentPipe,
-    FilterPipe
+    FilterPipe,
+    HttpComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filter'
+  name: 'filter',
+  pure: false  //** here as pipe recalculate when click the add server btn */
 })
 export class FilterPipe implements PipeTransform {
 
@@ -22,3 +23,4 @@ export class FilterPipe implements PipeTransform {
   }
 
 }
+
