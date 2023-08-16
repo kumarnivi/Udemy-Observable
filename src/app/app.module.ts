@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ShortentPipe } from './shorten.pipe';
 import { FilterPipe } from './filter.pipe';
 import { HttpComponent } from './http/http.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,11 +21,14 @@ import { HttpComponent } from './http/http.component';
     ShortentPipe,
     FilterPipe,
     HttpComponent
+
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
