@@ -40,6 +40,7 @@ export class PostsService {
         {
           headers: new HttpHeaders({ 'Coustom-Header': 'hello' }),
           params: searchParams,
+          responseType: 'json'
         }
       ) //** add ea request Header as a 2nd argument */
       .pipe(
@@ -63,7 +64,8 @@ export class PostsService {
     return this.http.delete(
       'https://backend-setup-7f3ed-default-rtdb.firebaseio.com/posts.json',
       {
-        observe: 'events'
+        observe: 'events',
+        responseType: 'text' //** get the console after clear the data */
       }
     ).pipe(tap(event => {
       console.log(event)

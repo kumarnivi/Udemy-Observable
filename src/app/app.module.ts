@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { ShortentPipe } from './shorten.pipe';
 import { FilterPipe } from './filter.pipe';
 import { HttpComponent } from './http/http.component';
-import { HttpClientModule } from '@angular/common/http';
-
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInteceptorService } from './auth.interceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,17 +20,10 @@ import { HttpClientModule } from '@angular/common/http';
     PipesComponent,
     ShortentPipe,
     FilterPipe,
-    HttpComponent
-
-
+    HttpComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInteceptorService }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
