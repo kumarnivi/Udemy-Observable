@@ -12,6 +12,7 @@ import { FilterPipe } from './filter.pipe';
 import { HttpComponent } from './http/http.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInteceptorService } from './auth.interceptor.service';
+import { LoggingInterceptorService } from './logging-interceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,18 @@ import { AuthInteceptorService } from './auth.interceptor.service';
     HttpComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInteceptorService }],
+  providers: [
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInteceptorService ,
+      multi:true
+    },
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: LoggingInterceptorService ,
+      multi:true
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
