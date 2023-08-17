@@ -24,10 +24,7 @@ export class HttpComponent  implements OnInit {
   
   }
 
-  onClearPosts() {
-    // Send Http request
-  }
-
+  
  onFetchPosts() {
   this.isFetching = true;
   this.postService.fetchPosts().subscribe(posts => {
@@ -35,6 +32,13 @@ export class HttpComponent  implements OnInit {
     this.loadedPosts = posts; //** like subscribing */
   });
  }
+
+ onClearPosts() {
+  // Send Http request
+  this.postService.deletePosts().subscribe(() => {
+    this.loadedPosts = []
+  })
+}
 
 
 }

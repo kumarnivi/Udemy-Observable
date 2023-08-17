@@ -37,4 +37,8 @@ export class PostsService {
     )
     
   }
+
+  deletePosts() {
+  return  this.http.delete('https://backend-setup-7f3ed-default-rtdb.firebaseio.com/posts.json')
+  }
 }
