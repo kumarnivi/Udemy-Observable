@@ -27,6 +27,7 @@ export class HttpComponent implements OnInit, OnDestroy {
         this.loadedPosts = posts; //** like subscribing */
       },
       (error) => {
+        this.isFetching = false; // ** for reset the loading
         this.error = error.message;
         console.log(error);
       }
@@ -43,7 +44,12 @@ export class HttpComponent implements OnInit, OnDestroy {
     this.postService.fetchPosts().subscribe((posts) => {
       this.isFetching = false;
       this.loadedPosts = posts; //** like subscribing */
-    });
+    }, (error) => {
+      this.isFetching = false;
+      this.error = error.message;
+      console.log(error);
+    }
+    );
   }
 
   onClearPosts() {
@@ -51,6 +57,10 @@ export class HttpComponent implements OnInit, OnDestroy {
     this.postService.deletePosts().subscribe(() => {
       this.loadedPosts = [];
     });
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 
   ngOnDestroy(): void {
