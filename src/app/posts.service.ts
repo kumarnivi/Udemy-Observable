@@ -23,7 +23,7 @@ export class PostsService {
 
 
   fetchPosts() {
-    this.http.get<{ [key: string]: Post }>('https://backend-setup-7f3ed-default-rtdb.firebaseio.com/posts.json')
+  return  this.http.get<{ [key: string]: Post }>('https://backend-setup-7f3ed-default-rtdb.firebaseio.com/posts.json')
     .pipe(
       map(responseData => {
         const postArray: Post[] = [];
@@ -35,10 +35,6 @@ export class PostsService {
         return postArray;
       })
     )
-    .subscribe(posts => {
-      // Do something with the retrieved posts
-      
-    });
-
+    
   }
 }

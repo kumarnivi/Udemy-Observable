@@ -15,7 +15,7 @@ export class HttpComponent  implements OnInit {
   constructor(private http: HttpClient, private postService : PostsService) {} //** inject the http client */
 
   ngOnInit() {
-    this.postService.fetchPosts();
+   
   }
 
   onCreatePost(postData: Post ) {
@@ -29,7 +29,11 @@ export class HttpComponent  implements OnInit {
   }
 
  onFetchPosts() {
-  this.postService.fetchPosts()
+  this.isFetching = true;
+  this.postService.fetchPosts().subscribe(posts => {
+    this.isFetching = false;
+    this.loadedPosts = posts; //** like subscribing */
+  });
  }
 
 
